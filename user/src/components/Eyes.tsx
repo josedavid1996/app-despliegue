@@ -1,10 +1,6 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 
-interface Props {
-  hidden: boolean
-  mandarInformacion: boolean
-}
-export const Eyes = ({ hidden, mandarInformacion }: Props) => {
+export const Eyes = () => {
   // const [eyesHidden, setEyesHidden] = useState(false)
   const eyesHidden = false
   return (
@@ -12,7 +8,7 @@ export const Eyes = ({ hidden, mandarInformacion }: Props) => {
       className="eyes"
       // onClick={mandarInformacion}
     >
-      {hidden ? (
+      {eyesHidden ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"

@@ -1,20 +1,28 @@
+import { useEffect, useState } from 'react'
+import reactLogo from './assets/react.svg'
 import './App.css'
-import './index.css'
 import io from 'socket.io-client'
 import { Eyes } from './components/Eyes'
-import { useState } from 'react'
 
 const socket = io('http://localhost:3001/')
 
 function App() {
-  const [hidden, setHidden] = useState(false)
-  const mandarInformacion = () => {
-    socket.emit('dato', hidden ? false : true)
-    setHidden(!hidden)
-  }
+  const [hidden, sethidden] = useState<boolean>(false)
+  console.log(hidden)
+  useEffect(() => {
+    socket.on('dato', (message) => sethidden(message))
+
+    return () => {
+      socket.off('dato', (message) => sethidden(message))
+    }
+  }, [])
   return (
     <>
-      <div className="eyes" onClick={mandarInformacion}>
+      {/* <Eyes hidden={hidden} /> */}
+      <div
+        className="eyes"
+        // onClick={mandarInformacion}
+      >
         {hidden ? (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,15 +49,7 @@ function App() {
           </svg>
         )}
       </div>
-      {/* <Eyes hidden={hidden} mandarInformacion={mandarInformacion} /> */}
-      <header>
-        <ul>
-          <a>Inicio</a>
-          <a>Taquilla</a>
-          <a>Acientos</a>
-        </ul>
-      </header>
-      <h1 className="title">Inicio</h1>
+      <h1 className="title">{hidden ? 'Usuario' : 'Logo'}</h1>
     </>
   )
 }
